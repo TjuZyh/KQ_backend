@@ -1,8 +1,9 @@
-package com.tjulab.checkin.service;
+package com.tjulab.checkin.service.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tjulab.checkin.entity.User;
 import com.tjulab.checkin.mapper.UserMapper;
+import com.tjulab.checkin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
