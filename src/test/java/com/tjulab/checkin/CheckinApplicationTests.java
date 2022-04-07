@@ -65,4 +65,11 @@ class CheckinApplicationTests {
     public void test06(){
         checkInOutService.querySignRecordByAccountOrType("2021229033" , null).stream().forEach(System.out::println);
     }
+
+    @Test
+    public void test07(){
+
+    }
+
+
 }

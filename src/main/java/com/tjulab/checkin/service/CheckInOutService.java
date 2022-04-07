@@ -1,5 +1,6 @@
 package com.tjulab.checkin.service;
 
+import com.tjulab.checkin.entity.LeftVacation;
 import com.tjulab.checkin.vo.QueryCheckRecordResp;
 import io.swagger.models.auth.In;
 
@@ -28,5 +29,12 @@ public interface CheckInOutService {
      * @return
      */
     List<QueryCheckRecordResp> querySignRecordByAccountOrType(String account , Integer type);
+
+    /**
+     * 根据员工ID查询本人剩余假期时间
+     * @param empId
+     * @return
+     */
+    LeftVacation queryLeftTimeByEmpId(long empId);
 
 }

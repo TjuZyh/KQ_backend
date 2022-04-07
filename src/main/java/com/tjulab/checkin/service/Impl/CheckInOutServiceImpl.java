@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.tjulab.checkin.entity.CheckRecord;
 import com.tjulab.checkin.entity.EmpState;
 import com.tjulab.checkin.entity.Employer;
+import com.tjulab.checkin.entity.LeftVacation;
 import com.tjulab.checkin.mapper.CheckRecordMapper;
 import com.tjulab.checkin.mapper.EmpStateMapper;
 import com.tjulab.checkin.mapper.EmployerMapper;
@@ -132,5 +133,10 @@ public class CheckInOutServiceImpl implements CheckInOutService {
            }
         }
         return respList;
+    }
+
+    @Override
+    public LeftVacation queryLeftTimeByEmpId(long empId) {
+        return null;
     }
 }
