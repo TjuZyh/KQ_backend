@@ -1,6 +1,7 @@
 package com.tjulab.checkin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.tjulab.checkin.entity.LeftVacation;
 import com.tjulab.checkin.service.CheckInOutService;
 import com.tjulab.checkin.vo.QueryCheckRecordResp;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,5 +43,11 @@ public class CheckController {
     })*/
     public List<QueryCheckRecordResp> queryRecordsByActOrType(String account, Integer type){
         return checkInOutService.querySignRecordByAccountOrType(account , type);
+    }
+
+    @ApiOperation("根据员工ID查询本人剩余假期时间")
+    @GetMapping("/getLeftTimeById/{id}")
+    public LeftVacation getLeftTimeById(@PathVariable("id") long empId){
+        return checkInOutService.queryLeftTimeByEmpId(empId);
     }
 }

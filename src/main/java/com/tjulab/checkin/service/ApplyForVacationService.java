@@ -1,6 +1,7 @@
 package com.tjulab.checkin.service;
 
 import com.tjulab.checkin.entity.Apply;
+import com.tjulab.checkin.vo.QueryApplyInfoResp;
 import com.tjulab.checkin.vo.QueryApplyRecordResp;
 
 import java.util.Date;
@@ -37,7 +38,6 @@ public interface ApplyForVacationService {
      * 用于展示给审批人员，审批人员只需要审批state为1的审批记录
      * @return
      */
-    List<QueryApplyRecordResp> queryApplyByState();
-
+    List<QueryApplyInfoResp> queryApplyByState();
 
 }

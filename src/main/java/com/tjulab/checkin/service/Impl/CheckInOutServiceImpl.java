@@ -9,6 +9,7 @@ import com.tjulab.checkin.entity.LeftVacation;
 import com.tjulab.checkin.mapper.CheckRecordMapper;
 import com.tjulab.checkin.mapper.EmpStateMapper;
 import com.tjulab.checkin.mapper.EmployerMapper;
+import com.tjulab.checkin.mapper.LeftVacationMapper;
 import com.tjulab.checkin.service.CheckInOutService;
 import com.tjulab.checkin.vo.QueryCheckRecordResp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 
     @Autowired
     private CheckRecordMapper checkRecordMapper;
+
+    @Autowired
+    private LeftVacationMapper leftVacationMapper;
 
     /**
      * 上下班打卡（签到），根据用户ID修改用户的状态，并添加打卡记录
@@ -135,8 +139,19 @@ public class CheckInOutServiceImpl implements CheckInOutService {
         return respList;
     }
 
+    /**
+     * 根据员工ID查询本人剩余假期时间
+     * @param empId
+     * @return
+     */
     @Override
     public LeftVacation queryLeftTimeByEmpId(long empId) {
-        return null;
+        QueryWrapper<LeftVacation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("emp_id" , empId);
+        List<LeftVacation> leftVacationList = leftVacationMapper.selectList(queryWrapper);
+        if(leftVacationList.size() == 0){
+            return null;
+        }
+        return leftVacationList.get(0);
     }
 }

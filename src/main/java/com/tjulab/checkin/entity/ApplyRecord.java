@@ -15,4 +15,6 @@ public class ApplyRecord {
     private Integer type;
 
     private Integer totalTime;
+
+    private Integer state;
 }

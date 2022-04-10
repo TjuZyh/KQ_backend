@@ -4,16 +4,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.tjulab.checkin.entity.Apply;
 import com.tjulab.checkin.entity.ApplyRecord;
+import com.tjulab.checkin.entity.Employer;
 import com.tjulab.checkin.entity.LeftVacation;
 import com.tjulab.checkin.mapper.ApplyMapper;
 import com.tjulab.checkin.mapper.ApplyRecordMapper;
 import com.tjulab.checkin.mapper.EmployerMapper;
 import com.tjulab.checkin.mapper.LeftVacationMapper;
 import com.tjulab.checkin.service.ApplyForVacationService;
+import com.tjulab.checkin.vo.QueryApplyInfoResp;
 import com.tjulab.checkin.vo.QueryApplyRecordResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -202,6 +205,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
             applyRecord.setEmpId(curApplierId);
             applyRecord.setType(curApplier.getType());
             applyRecord.setTotalTime(curApplierDuringTime);
+            applyRecord.setState(state);
             applyRecordMapper.insert(applyRecord);
         }
         return true;
@@ -214,7 +218,24 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      */
     @Override
     public List<QueryApplyRecordResp> queryApplyByEmpId(long empId) {
-        return null;
+        QueryWrapper<ApplyRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("emp_id" , empId);
+        List<ApplyRecord> recordList = applyRecordMapper.selectList(queryWrapper);
+        List<QueryApplyRecordResp> respList = new ArrayList<>();
+        for(ApplyRecord applyRecord : recordList){
+            QueryApplyRecordResp resp = new QueryApplyRecordResp();
+            resp.setApplyRecordId(applyRecord.getApplyRecordId());
+            resp.setDuringTime(applyRecord.getTotalTime());
+            resp.setType(applyRecord.getType());
+            resp.setState(applyRecord.getState());
+            long curEmpId = applyRecord.getEmpId();
+            Employer employer = employerMapper.selectById(curEmpId);
+            resp.setAccount(employer.getAccount());
+            resp.setName(employer.getName());
+
+            respList.add(resp);
+        }
+        return respList;
     }
 
     /**
@@ -222,7 +243,25 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      * @return
      */
     @Override
-    public List<QueryApplyRecordResp> queryApplyByState() {
-        return null;
+    public List<QueryApplyInfoResp> queryApplyByState() {
+        QueryWrapper<Apply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("state" , 1);
+        List<Apply> applyList = applyMapper.selectList(queryWrapper);
+        List<QueryApplyInfoResp> respList = new ArrayList<>();
+        for(Apply apply : applyList){
+            QueryApplyInfoResp resp = new QueryApplyInfoResp();
+            resp.setApplyId(apply.getApplyId());
+            resp.setStartTime(apply.getStartTime());
+            resp.setDuringTime(apply.getDuringTime());
+            resp.setReason(apply.getReason());
+            resp.setType(apply.getType());
+            resp.setState(apply.getState());
+            Employer curEmp = employerMapper.selectById(apply.getEmpId());
+            resp.setName(curEmp.getName());
+            resp.setAccount(curEmp.getAccount());
+
+            respList.add(resp);
+        }
+        return respList;
     }
 }
