@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
+
 @SpringBootTest
 public class Test0409 {
 
@@ -19,5 +21,10 @@ public class Test0409 {
     @Test
     public void test02(){
         applyForVacationService.queryApplyByState().stream().forEach(System.out::println);
+    }
+
+    @Test
+    public void test03(){
+        System.out.println(new Date());
     }
 }
