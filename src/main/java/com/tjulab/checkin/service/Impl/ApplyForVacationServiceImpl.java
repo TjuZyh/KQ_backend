@@ -243,9 +243,36 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      * @return
      */
     @Override
-    public List<QueryApplyInfoResp> queryApplyByState() {
+    public List<QueryApplyInfoResp> queryApplyByStateForEventManager() {
         QueryWrapper<Apply> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("state" , 1);
+        queryWrapper.eq("state" , 1).lt("during_time" , 3);
+        List<Apply> applyList = applyMapper.selectList(queryWrapper);
+        List<QueryApplyInfoResp> respList = new ArrayList<>();
+        for(Apply apply : applyList){
+            QueryApplyInfoResp resp = new QueryApplyInfoResp();
+            resp.setApplyId(apply.getApplyId());
+            resp.setStartTime(apply.getStartTime());
+            resp.setDuringTime(apply.getDuringTime());
+            resp.setReason(apply.getReason());
+            resp.setType(apply.getType());
+            resp.setState(apply.getState());
+            Employer curEmp = employerMapper.selectById(apply.getEmpId());
+            resp.setName(curEmp.getName());
+            resp.setAccount(curEmp.getAccount());
+
+            respList.add(resp);
+        }
+        return respList;
+    }
+
+    /**
+     * 用于展示给总经理经理，只需要审批state为1的审批记录并且申请天数大于3天
+     * @return
+     */
+    @Override
+    public List<QueryApplyInfoResp> queryApplyByStateForBigManager() {
+        QueryWrapper<Apply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("state" , 1).ge("during_time" , 3);
         List<Apply> applyList = applyMapper.selectList(queryWrapper);
         List<QueryApplyInfoResp> respList = new ArrayList<>();
         for(Apply apply : applyList){

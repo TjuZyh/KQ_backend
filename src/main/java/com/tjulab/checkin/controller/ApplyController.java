@@ -37,9 +37,15 @@ public class ApplyController {
         return applyForVacationService.queryApplyByEmpId(empId);
     }
 
-    @ApiOperation("展示给审批人员的审批表信息")
-    @GetMapping("/getApplyInfo")
-    public List<QueryApplyInfoResp> getApplyInfo(){
-        return applyForVacationService.queryApplyByState();
+    @ApiOperation("展示给部门经理的审批表信息，只展示小于3天的请假信息")
+    @GetMapping("/getApplyInfoForEvent")
+    public List<QueryApplyInfoResp> queryApplyByStateForEventManager(){
+        return applyForVacationService.queryApplyByStateForEventManager();
+    }
+
+    @ApiOperation("展示给总经理以及副总经理的审批表信息，只展示大于等于3天的请假信息")
+    @GetMapping("/getApplyInfoForBig")
+    public List<QueryApplyInfoResp> queryApplyByStateForBigManager(){
+        return applyForVacationService.queryApplyByStateForBigManager();
     }
 }

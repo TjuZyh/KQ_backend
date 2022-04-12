@@ -3,6 +3,7 @@ package com.tjulab.checkin.controller;
 import com.tjulab.checkin.entity.Employer;
 import com.tjulab.checkin.service.EmployerService;
 import com.tjulab.checkin.vo.QueryEmpInfoResp;
+import com.tjulab.checkin.vo.QueryEmpStateResp;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,12 @@ public class EmployerController {
     @PostMapping("/insertEmpInfo")
     public boolean insertEmpInfo(Employer employer) {
         return employerService.insertEmpInfo(employer);
+    }
+
+    @ApiOperation("查询公司全部人员的状态")
+    @GetMapping("/queryEmpState")
+    public List<QueryEmpStateResp> queryEmpState(){
+        return employerService.queryEmpState();
     }
 
 

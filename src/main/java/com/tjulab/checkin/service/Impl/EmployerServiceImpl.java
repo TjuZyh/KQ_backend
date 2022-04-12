@@ -148,9 +148,19 @@ public class EmployerServiceImpl implements EmployerService {
      */
     @Override
     public List<QueryEmpStateResp> queryEmpState() {
-        List<EmpState> empStates = empStateMapper.selectList(null);
+        List<EmpState> empStateList = empStateMapper.selectList(null);
+        List<QueryEmpStateResp> respList = new ArrayList<>();
+        for(EmpState empState : empStateList){
+            QueryEmpStateResp resp = new QueryEmpStateResp();
+            resp.setStateId(empState.getStateId());
+            resp.setState(empState.getState());
+            Employer employer = employerMapper.selectById(empState.getEmpId());
+            resp.setAccount(employer.getAccount());
+            resp.setName(employer.getName());
+            respList.add(resp);
 
-        return null;
+        }
+        return respList;
 
     }
 }

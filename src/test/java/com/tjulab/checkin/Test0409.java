@@ -20,7 +20,7 @@ public class Test0409 {
 
     @Test
     public void test02(){
-        applyForVacationService.queryApplyByState().stream().forEach(System.out::println);
+        applyForVacationService.queryApplyByStateForEventManager().stream().forEach(System.out::println);
     }
 
     @Test

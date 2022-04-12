@@ -35,9 +35,16 @@ public interface ApplyForVacationService {
     List<QueryApplyRecordResp> queryApplyByEmpId(long empId);
 
     /**
-     * 用于展示给审批人员，审批人员只需要审批state为1的审批记录
+     * 用于展示给项目经理，只需要审批state为1的审批记录并且申请天数小于3天
      * @return
      */
-    List<QueryApplyInfoResp> queryApplyByState();
+    List<QueryApplyInfoResp> queryApplyByStateForEventManager();
+
+    /**
+     * 用于展示给总经理经理，只需要审批state为1的审批记录并且申请天数大于3天
+     * @return
+     */
+    List<QueryApplyInfoResp> queryApplyByStateForBigManager();
+
 
 }
