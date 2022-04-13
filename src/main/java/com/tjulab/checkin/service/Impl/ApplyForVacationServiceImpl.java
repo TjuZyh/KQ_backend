@@ -46,14 +46,14 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      * @return
      */
     @Override
-    public boolean applyForVacation(long empId, Date startTime, Integer duringTime, String reason, Integer type) {
+    public int applyForVacation(long empId, Date startTime, Integer duringTime, String reason, Integer type) {
         //上锁，如果该员工有其他的未审批的审批表，则不予审批
         QueryWrapper<Apply> applyQueryWrapper = new QueryWrapper<>();
         applyQueryWrapper.eq("emp_id" , empId).eq("state" , 1);
         List<Apply> applyList = applyMapper.selectList(applyQueryWrapper);
-        if(applyList.size() > 1){
+        if(applyList.size() >= 1){
             System.out.println("同一时间只能申请一个事项！");
-            return false;
+            return 1;
         }
 
         QueryWrapper<LeftVacation> queryWrapper = new QueryWrapper<>();
@@ -78,38 +78,38 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
         if(type == 1){//年假
             if(leftVacation.getLeftYear() < duringTime){
                 System.out.println("剩余年假时间不足");
-                return false;
+                return 2;
             }
         }else if(type == 2){//婚假
             if(leftVacation.getLeftHunJia() < duringTime){
                 System.out.println("剩余婚假时间不足");
-                return false;
+                return 2;
             }
         }else if(type == 3){//产检
             if(leftVacation.getLeftChanJian() < duringTime){
                 System.out.println("剩余产检时间不足");
-                return false;
+                return 2;
             }
         }else if(type == 4){//产假
             if(leftVacation.getLeftChanJia() < duringTime){
                 System.out.println("剩余产假时间不足");
-                return false;
+                return 2;
             }
         }else if(type == 5){//哺乳
             if(leftVacation.getLeftBuRu() < duringTime){
                 System.out.println("剩余哺乳时间不足");
-                return false;
+                return 2;
             }
         }else if(type == 6){//陪产
             if(leftVacation.getLeftPeiChan() < duringTime){
                 System.out.println("剩余陪产时间不足");
-                return false;
+                return 2;
             }
         }else if(type == 0 || type == 7){//事假、外出
             System.out.println("符合");
         }else{
             System.out.println("请假类型不存在");
-            return false;
+            return 2;
         }
         //将员工请假信息添加到请假表中
         Apply apply = new Apply();
@@ -121,7 +121,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
         apply.setState(1);
         apply.setEmpId(empId);
         applyMapper.insert(apply);
-        return true;
+        return 3;
     }
 
     /**
@@ -131,7 +131,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      * @return
      */
     @Override
-    public boolean updateApplyState(long applyId, Integer state) {
+    public int updateApplyState(long applyId, Integer state) {
 
         //上锁，如果该员工有其他的未审批的审批表，则不予审批
         Apply curApplier = applyMapper.selectById(applyId);
@@ -149,7 +149,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
             }
         }
         if(cnt > 1){
-            return false;
+            return 1;
         }
 
         //判断操作的类型，如果是2，即通过，则
@@ -197,7 +197,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
                 System.out.println("合法");
             }else {
                 System.out.println("type不合法");
-                return false;
+                return 2;
             }
 
             //添加员工请假记录
@@ -208,7 +208,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
             applyRecord.setState(state);
             applyRecordMapper.insert(applyRecord);
         }
-        return true;
+        return 3;
     }
 
     /**

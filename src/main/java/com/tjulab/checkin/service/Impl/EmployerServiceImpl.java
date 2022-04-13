@@ -10,11 +10,14 @@ import com.tjulab.checkin.mapper.LeftVacationMapper;
 import com.tjulab.checkin.service.EmployerService;
 import com.tjulab.checkin.vo.QueryEmpInfoResp;
 import com.tjulab.checkin.vo.QueryEmpStateResp;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmployerServiceImpl implements EmployerService {
@@ -94,19 +97,24 @@ public class EmployerServiceImpl implements EmployerService {
      * @return
      */
     @Override
-    public Employer login(String account, String password) {
+    public Map<Employer , Integer> login(String account, String password) {
         QueryWrapper<Employer> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account" , account);
         List<Employer> employerList = employerMapper.selectList(queryWrapper);
+
+        Map<Employer , Integer> resMap = new HashMap<>();
+
         if(employerList.size() == 0) {
             System.out.println("没有该用户信息！");
-            return null;
-        }
-        if(employerList.get(0).getPassword().equals(password)){
-            return employerList.get(0);
+            resMap.put(new Employer() , 1);
+            return resMap;
+        }else if(employerList.get(0).getPassword().equals(password)){
+            resMap.put(employerList.get(0) , 2);
+            return resMap;
         }else {
             System.out.println("密码不正确！");
-            return null;
+            resMap.put(new Employer() , 3);
+            return resMap;
         }
     }
 

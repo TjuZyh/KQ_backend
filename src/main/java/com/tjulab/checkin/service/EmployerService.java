@@ -5,6 +5,7 @@ import com.tjulab.checkin.vo.QueryEmpInfoResp;
 import com.tjulab.checkin.vo.QueryEmpStateResp;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployerService {
 
@@ -33,7 +34,7 @@ public interface EmployerService {
      * @param password
      * @return
      */
-    Employer login(String account , String password);
+    Map<Employer , Integer> login(String account , String password);
 
     /**
      * 新增员工信息，

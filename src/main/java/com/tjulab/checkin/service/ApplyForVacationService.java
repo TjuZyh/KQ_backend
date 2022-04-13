@@ -17,7 +17,7 @@ public interface ApplyForVacationService {
      * @param type
      * @return
      */
-    boolean applyForVacation(long empId , Date startTime , Integer duringTime , String reason , Integer type);
+    int applyForVacation(long empId , Date startTime , Integer duringTime , String reason , Integer type);
 
     /**
      * 负责人原审批员工请假，根据申请ID号修改申请表中的状态
@@ -25,7 +25,7 @@ public interface ApplyForVacationService {
      * @param state
      * @return
      */
-    boolean updateApplyState(long applyId , Integer state);
+    int updateApplyState(long applyId , Integer state);
 
     /**
      * 查询本人请假记录
