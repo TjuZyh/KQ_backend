@@ -3,6 +3,7 @@ package com.tjulab.checkin.util;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+
 //同一返回结果类
 @Data
 public class R<T> {

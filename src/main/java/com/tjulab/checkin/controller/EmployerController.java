@@ -75,5 +75,10 @@ public class EmployerController {
         return R.ok(employerService.queryEmpState());
     }
 
-
+    @ApiOperation("查询当前员工的状态")
+    @GetMapping("queryStateById/{empId}")
+    public R<Integer> queryStateById(@PathVariable("empId") long empId){
+        return R.ok(employerService.queryStateById(empId));
+    }
+    
 }

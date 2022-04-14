@@ -47,6 +47,8 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      */
     @Override
     public int applyForVacation(long empId, Date startTime, Integer duringTime, String reason, Integer type) {
+
+
         //上锁，如果该员工有其他的未审批的审批表，则不予审批
         QueryWrapper<Apply> applyQueryWrapper = new QueryWrapper<>();
         applyQueryWrapper.eq("emp_id" , empId).eq("state" , 1);
@@ -221,14 +223,21 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
         QueryWrapper<ApplyRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("emp_id" , empId);
         List<ApplyRecord> recordList = applyRecordMapper.selectList(queryWrapper);
+
+
         List<QueryApplyRecordResp> respList = new ArrayList<>();
+
+
         for(ApplyRecord applyRecord : recordList){
+
             QueryApplyRecordResp resp = new QueryApplyRecordResp();
+
             resp.setApplyRecordId(applyRecord.getApplyRecordId());
             resp.setDuringTime(applyRecord.getTotalTime());
             resp.setType(applyRecord.getType());
             resp.setState(applyRecord.getState());
             long curEmpId = applyRecord.getEmpId();
+
             Employer employer = employerMapper.selectById(curEmpId);
             resp.setAccount(employer.getAccount());
             resp.setName(employer.getName());

@@ -49,6 +49,13 @@ public interface EmployerService {
      */
     List<QueryEmpStateResp> queryEmpState();
 
+    /**
+     * 根据id查询员工状态
+     * @param empId
+     * @return
+     */
+    Integer queryStateById(long empId);
+
 
 
 }

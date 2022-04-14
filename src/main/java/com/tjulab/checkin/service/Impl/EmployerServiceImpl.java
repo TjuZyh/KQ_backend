@@ -171,4 +171,15 @@ public class EmployerServiceImpl implements EmployerService {
         return respList;
 
     }
+
+    /**
+     * 根据id查询员工状态
+     * @param empId
+     * @return
+     */
+    @Override
+    public Integer queryStateById(long empId) {
+        EmpState empState = empStateMapper.selectById(empId);
+        return empState.getState();
+    }
 }
