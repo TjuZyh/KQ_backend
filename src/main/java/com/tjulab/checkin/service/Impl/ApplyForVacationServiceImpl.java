@@ -300,4 +300,31 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
         }
         return respList;
     }
+
+    /**
+     * 根据Id查询员工当前申请的记录
+     * @param empId
+     * @return
+     */
+    @Override
+    public QueryApplyInfoResp queryApplyingByEmpId(long empId) {
+        QueryWrapper<Apply> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("emp_id" , empId).eq("state" , 1);
+        List<Apply> applyList = applyMapper.selectList(queryWrapper);
+        if(applyList.size() == 0){
+            return null;
+        }
+        Apply apply = applyList.get(0);
+        QueryApplyInfoResp resp = new QueryApplyInfoResp();
+        resp.setApplyId(apply.getApplyId());
+        resp.setStartTime(apply.getStartTime());
+        resp.setDuringTime(apply.getDuringTime());
+        resp.setReason(apply.getReason());
+        resp.setType(apply.getType());
+        resp.setState(apply.getState());
+        Employer curEmp = employerMapper.selectById(empId);
+        resp.setName(curEmp.getName());
+        resp.setAccount(curEmp.getAccount());
+        return resp;
+    }
 }

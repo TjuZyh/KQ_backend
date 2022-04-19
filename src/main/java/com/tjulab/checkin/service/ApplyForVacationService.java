@@ -46,5 +46,13 @@ public interface ApplyForVacationService {
      */
     List<QueryApplyInfoResp> queryApplyByStateForBigManager();
 
+    /**
+     * 根据Id查询员工当前申请的记录
+     * @param empId
+     * @return
+     */
+    QueryApplyInfoResp queryApplyingByEmpId(long empId);
+
+
 
 }

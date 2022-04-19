@@ -64,4 +64,10 @@ public class ApplyController {
     public R<List<QueryApplyInfoResp>> queryApplyByStateForBigManager(){
         return R.ok(applyForVacationService.queryApplyByStateForBigManager());
     }
+
+    @ApiOperation("根据Id查询员工当前申请的记录")
+    @GetMapping("/queryApplyingByEmpId/{empId}")
+    public R<QueryApplyInfoResp> queryApplyingByEmpId(@PathVariable("empId") long empId){
+        return R.ok(applyForVacationService.queryApplyingByEmpId(empId));
+    }
 }
