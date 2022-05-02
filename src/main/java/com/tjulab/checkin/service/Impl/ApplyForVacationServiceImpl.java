@@ -307,7 +307,7 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
      * @return
      */
     @Override
-    public QueryApplyInfoResp queryApplyingByEmpId(long empId) {
+    public List<QueryApplyInfoResp> queryApplyingByEmpId(long empId) {
         QueryWrapper<Apply> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("emp_id" , empId).eq("state" , 1);
         List<Apply> applyList = applyMapper.selectList(queryWrapper);
@@ -325,6 +325,9 @@ public class ApplyForVacationServiceImpl implements ApplyForVacationService {
         Employer curEmp = employerMapper.selectById(empId);
         resp.setName(curEmp.getName());
         resp.setAccount(curEmp.getAccount());
-        return resp;
+
+        List<QueryApplyInfoResp> respList = new ArrayList<>();
+        respList.add(resp);
+        return respList;
     }
 }

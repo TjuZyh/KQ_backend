@@ -51,7 +51,7 @@ public interface ApplyForVacationService {
      * @param empId
      * @return
      */
-    QueryApplyInfoResp queryApplyingByEmpId(long empId);
+    List<QueryApplyInfoResp> queryApplyingByEmpId(long empId);
 
 
 

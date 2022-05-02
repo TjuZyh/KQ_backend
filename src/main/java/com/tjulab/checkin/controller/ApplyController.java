@@ -7,6 +7,7 @@ import com.tjulab.checkin.vo.QueryApplyInfoResp;
 import com.tjulab.checkin.vo.QueryApplyRecordResp;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class ApplyController {
 
     @ApiOperation("员工申请假期")
     @PostMapping("/applyVacation/{empId}/{startTime}/{duringTime}/{reason}/{type}")
-    public R applyVacation(@PathVariable("empId") long empId, @PathVariable("startTime") Date startTime, @PathVariable("duringTime") Integer duringTime, @PathVariable("reason") String reason, @PathVariable("type") Integer type){
+    public R applyVacation(@PathVariable("empId") long empId, @PathVariable("startTime")@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date startTime, @PathVariable("duringTime") Integer duringTime, @PathVariable("reason") String reason, @PathVariable("type") Integer type){
         int resType = applyForVacationService.applyForVacation(empId ,startTime, duringTime , reason , type );
         if(resType == 1){
             return R.error(ResultCode.REPEAT_APPLY);
@@ -67,7 +68,7 @@ public class ApplyController {
 
     @ApiOperation("根据Id查询员工当前申请的记录")
     @GetMapping("/queryApplyingByEmpId/{empId}")
-    public R<QueryApplyInfoResp> queryApplyingByEmpId(@PathVariable("empId") long empId){
+    public R<List<QueryApplyInfoResp>> queryApplyingByEmpId(@PathVariable("empId") long empId){
         return R.ok(applyForVacationService.queryApplyingByEmpId(empId));
     }
 }
